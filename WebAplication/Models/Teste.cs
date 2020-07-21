@@ -7,6 +7,6 @@ namespace WebAplication.Models
 {
     public class Teste
     {
-
+        .
     }
 }
