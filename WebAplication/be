@@ -1,0 +1,48 @@
+private void MakeRequests()
+{
+	HttpWebResponse response;
+
+	if (Request_www_mastercardconnect_com(out response))
+	{
+		response.Close();
+	}
+}
+
+private bool Request_www_mastercardconnect_com(out HttpWebResponse response)
+{
+	response = null;
+
+	try
+	{
+		HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://www.mastercardconnect.com/mccpblcui/");
+
+		request.KeepAlive = true;
+		request.Headers.Set(HttpRequestHeader.CacheControl, "max-age=0");
+		request.Headers.Add("Upgrade-Insecure-Requests", @"1");
+		request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36";
+		request.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9";
+		request.Headers.Add("Sec-Fetch-Site", @"same-origin");
+		request.Headers.Add("Sec-Fetch-Mode", @"navigate");
+		request.Headers.Add("Sec-Fetch-User", @"?1");
+		request.Headers.Add("Sec-Fetch-Dest", @"document");
+		request.Headers.Set(HttpRequestHeader.AcceptEncoding, "gzip, deflate, br");
+		request.Headers.Set(HttpRequestHeader.AcceptLanguage, "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7");
+		request.Headers.Set(HttpRequestHeader.Cookie, @"OptanonAlertBoxClosed=2020-10-01T14:30:13.322Z; s_fid=776E40A3F0436B35-2B909D2D7BF0F6FE; BIGipServercontent.mcc.com-https-pool=!BmqFDnzz51m2wRvWsEZ2a22okBRj0FiAcsMReFCNHy87Vs72nCH96rmLFvuxSNzbM+czKmNknh+vLg==; TS0162f388=01772feb4b94a175e22670cdf687ce65ac23e9eb5580210778673274a822df1aff3782e696ea86d868019b4fdd73e3521d468fe4e9bf81515af24dd14bfde9b2529236ab0a; ILBSESSION=!aC1L/R87jO+BgIzQOHxchqBtj6M5juLODCb9lbh9ovOaOTUbMlw852bnaHD1sKMPRkf+NlG2iEFJ0Q==; OptanonConsent=isIABGlobal=false&datestamp=Fri+Oct+02+2020+10%3A27%3A04+GMT-0300+(Hor%C3%A1rio+Padr%C3%A3o+de+Bras%C3%ADlia)&version=6.0.0&landingPath=NotLandingPage&groups=C016%3A1%2CC015%3A1%2CC0001%3A1%2CC006%3A1%2CC0002%3A1&hosts=H144%3A1%2CH184%3A1&legInt=&consentId=23772a4e-99a3-4d80-96dc-6fbf24eaaf3e&interactionCount=1&geolocation=%3B&AwaitingReconsent=false; s_nr=1601645224758-Repeat; gpv_pn=Connect%20Sign%20In; s_vnum=1633098615962%26vn%3D5; s_invisit=true; s_cc=true");
+		request.Headers.Set(HttpRequestHeader.IfNoneMatch, @"""5f64fb96-81c""");
+		request.IfModifiedSince = DateTime.Parse("Fri, 18 Sep 2020 18:25:26 GMT");
+
+		response = (HttpWebResponse)request.GetResponse();
+	}
+	catch (WebException e)
+	{
+		if (e.Status == WebExceptionStatus.ProtocolError) response = (HttpWebResponse)e.Response;
+		else return false;
+	}
+	catch (Exception)
+	{
+		if(response != null) response.Close();
+		return false;
+	}
+
+	return true;
+}
